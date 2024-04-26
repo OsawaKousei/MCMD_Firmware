@@ -1,0 +1,3 @@
+[submodule "CANLib"]
+	path = CANLib
+	url = https://gitlab.com/kikaiken/canlib.git
