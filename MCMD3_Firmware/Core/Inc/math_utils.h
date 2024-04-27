@@ -8,7 +8,7 @@
 #ifndef INC_MATH_UTILS_H_
 #define INC_MATH_UTILS_H_
 
-int Sign(float value);
+float Sign(float value);
 
 
 

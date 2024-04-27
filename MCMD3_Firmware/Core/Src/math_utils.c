@@ -7,7 +7,6 @@
 
 #include "math_utils.h"
 
-int Sign(float value){
-	int sign;
-	return sign;
+float Sign(float value){
+	return (value>0)-(value<0);
 }
