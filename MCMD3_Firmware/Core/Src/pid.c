@@ -20,6 +20,8 @@ float pure_PID(float error, PID_StructTypedef *param){
 }
 
 float PID_ctrl(float target, float current_val, PID_StructTypedef *param, PID_CtrlTypedef *ctrl_param){
+
+	//PIDの準備
 	float error=target_duty-current_val;
 	if(ctrl_param->if_error_limit && error > ctrl_param->max_error){
 		error=ctrl_param->max_error;
@@ -27,6 +29,11 @@ float PID_ctrl(float target, float current_val, PID_StructTypedef *param, PID_Ct
 	if(ctrl_param->integral_reset_frag){
 		param->integral=0.0;
 	}
+	if(ctrl_param->if_max_integral && param->integral+(error+param->prev_error)*param->ctrl_period/2.0 > ctrl_param->max_integral){
+		param->integral=ctrl_param->max_integral-(error+param->prev_error)*param->ctrl_period/2.0 ;
+	}
+
+	//PID
 	float ctrl_val=pure_PID(error, param);
 	if(ctrl_param->use_rerative_ctrl){
 		ctrl_val+=ctrl_param->prev_val;
@@ -42,6 +49,9 @@ float PID_ctrl(float target, float current_val, PID_StructTypedef *param, PID_Ct
 		}else{
 			ctrl_val=ctrl_param->prev_val-ctrl_param->max_accel;
 		}
+	}
+	if(ctrl_param->if_min_duty && fabs(ctrl_val)<ctrl_param->min_duty){
+		ctrl_val=Sign(ctrl_val)*ctrl_param->min_duty;
 	}
 
 	ctrl_param->prev_val=ctrl_val;

@@ -21,7 +21,6 @@ typedef struct
 
     // values
     float integral;//積分
-    float value;//制御値
     float prev_error;//前回の誤差
     //不完全微分用変数
     float prev_diff;//前回の微分
