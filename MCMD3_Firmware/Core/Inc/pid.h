@@ -22,7 +22,6 @@ typedef struct
     // values
     float integral;//積分
     float value;//制御値
-    float prev_value;//前回の制御値
     float prev_error;//前回の誤差
     //不完全微分用変数
     float prev_diff;//前回の微分
@@ -36,7 +35,7 @@ typedef struct
    float max_accel;
 
    //従来の形の誤差を制限するリミッター
-   boo; if_error_limit;
+   bool if_error_limit;
    float max_error;
 
    bool if_max_duty;
@@ -59,8 +58,10 @@ typedef struct
 
    bool Scurve_accelaration; // S字加減速を行うか
 
+   float prev_val;
 } PID_CtrlTypedef;
 
-
+float pure_PID(float error, PID_StructTypedef *param);
+float PID_ctrl(float target, float current_val, PID_StructTypedef *param, PID_CtrlTypedef *ctrl_param);
 
 #endif /* INC_PID_H_ */
